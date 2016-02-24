@@ -28,12 +28,12 @@ public class RestaurantTest {
     assertEquals(savedRestaurant.getName(), "Sesame Donuts");
   }
 
-  // @Test
-  // public void restaurant_deletes_true() {
-  //   Restaurant myRestaurant = new Restaurant(1, "Voodoo Donuts", "best donuts around", 1);
-  //   myRestaurant.deleteRestaurant(0);
-  //   assertTrue(Restaurant.all() == null);
-  // }
+  @Test
+  public void restaurant_deletes_true() {
+    Restaurant myRestaurant = new Restaurant(1, "Voodoo Donuts", "best donuts around", 1);
+    myRestaurant.deleteRestaurant(0);
+    assertTrue(Restaurant.find(0) == null);
+  }
   @Test
   public void find_findsRestaurantsInDatabase_true() {
     Restaurant myRestaurant = new Restaurant (1, "Voodoo Donuts", "best donuts around", 1);

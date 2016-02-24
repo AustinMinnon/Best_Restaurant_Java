@@ -74,13 +74,14 @@ public class Restaurant {
       }
   }
 
-  // public static void deleteRestaurant(int id) {
-  //   String sql = "DELETE FROM restaurants WHERE id=:id";
-  //   try(Connection con = DB.sql2o.open()) {
-  //     con.createQuery(sql)
-  //     .addParameter("id", id)
-  //     .executeUpdate();
-  //   }
+  public static void deleteRestaurant(int id) {
+    String sql = "DELETE FROM restaurants WHERE id=:id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+      .addParameter("id", id)
+      .executeUpdate();
+    }
+  }
 
   public static Restaurant find(int id) {
     try(Connection con = DB.sql2o.open()) {

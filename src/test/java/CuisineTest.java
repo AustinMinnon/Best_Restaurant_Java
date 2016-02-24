@@ -29,19 +29,18 @@ public class CuisineTest {
     //savedCuisine.save();
     assertEquals(savedCuisine.getType(), "American");
   }
-  // @Test
-  // public void update_restaurant_true() {
-  //   Restaurant testRestaurant = new Restaurant(1, "Voodoo Donuts", "best donuts around", 1);
-  //   testRestaurant.save();
-  //   testRestaurant.update(1, "Sesame Donuts", "best donuts around", 1);
-  //   Restaurant savedRestaurant = Restaurant.all().get(0);
-  //   assertEquals(savedRestaurant.getName(), "Sesame Donuts");
-  // }
 
-  // @Test
-  // public void cuisine_deletes_true() {
-  //   Cuisine myCuisine = new Cuisine("Chinese");
-  //   myCuisine.deleteCuisine();
-  //   assertTrue(Cuisine.all() == null);
-  // }
+  @Test
+  public void Cuisine_deletes_true() {
+    Cuisine myCuisine = new Cuisine(1, "mexican");
+    myCuisine.deleteCuisine(0);
+    assertTrue(Cuisine.find(0) == null);
+  }
+  @Test
+  public void find_findsCuisinesInDatabase_true() {
+    Cuisine myCuisine = new Cuisine (1, "mexican");
+    myCuisine.save();
+    Cuisine savedCuisine = Cuisine.find(myCuisine.getId());
+    assertTrue(myCuisine.equals(savedCuisine));
+  }
 }

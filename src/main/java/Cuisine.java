@@ -60,7 +60,8 @@ public class Cuisine {
       }
 
   }
-    public void deleteCuisine() {
+    public void deleteCuisine(int cuisine_id) {
+      this.cuisine_id = cuisine_id;
       try(Connection con = DB.sql2o.open()) {
         String sql = "DELETE FROM cuisine WHERE cuisine_id = :cuisine_id";
         con.createQuery(sql)
@@ -69,6 +70,15 @@ public class Cuisine {
       }
     }
 
+    public static Cuisine find(int cuisine_id) {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "SELECT * FROM Cuisine where cuisine_id=:cuisine_id";
+        Cuisine Cuisine = con.createQuery(sql)
+        .addParameter("cuisine_id", cuisine_id)
+        .executeAndFetchFirst(Cuisine.class);
+        return Cuisine;
+      }
+    }
 //
 //   public void delete() {
 //     try(Connection con = DB.sql2o.open()) {
@@ -81,7 +91,7 @@ public class Cuisine {
 //   /******************************************************
 //     Students:
 //     TODO: Create find method
-//     TODO: Create method to get restaurants
+//     TODO: Create method to get Cuisines
 //   *******************************************************/
 //
 }
