@@ -2,19 +2,32 @@ import org.sql2o.*;
 import java.util.List;
 
 public class Restaurant {
-  private int mId;
-  private String mName;
+  private int id;
+  private String name;
+  private String description;
+  private int cuisine_id;
 
-  public Restaurant (String name) {
-    this.mName = name;
+  public Restaurant (int id, String name, String description, int cuisine_id) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.cuisine_id = cuisine_id;
   }
 
   public int getId() {
-    return mId;
+    return id;
   }
 
   public String getName() {
-    return mName;
+    return name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public int getCuisineId() {
+    return cuisine_id;
   }
 
   @Override
@@ -24,51 +37,63 @@ public class Restaurant {
     } else {
       Restaurant newRestaurant = (Restaurant) otherRestaurant;
       return this.getName().equals(newRestaurant.getName()) &&
-        this.getId() == newRestaurant.getId();
+        this.getId() == newRestaurant.getId() && this.getDescription().equals(newRestaurant.getDescription()) && this.getCuisineId() == (newRestaurant.getCuisineId());
     }
   }
 
-  //CREATE
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      String sql = "INSERT INTO restaurants(id, name, description, cuisine_id) VALUES (:id, :name, :description, :cuisine_id)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("id", id)
+        .addParameter("name", name)
+        .addParameter("description", description)
+        .addParameter("cuisine_id", cuisine_id)
+        .executeUpdate()
+        .getKey();
     }
   }
 
-  //READ
+
   public static List<Restaurant> all() {
+    String sql = "SELECT id, name, description, cuisine_id FROM restaurants";
     try (Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      return con.createQuery(sql).executeAndFetch(Restaurant.class);
     }
   }
 
-  //UPDATE
-  public void update(String newName) {
-    this.mName = newName;
+  public void update(int id, String name, String description, int cuisine_id) {
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      String sql = "UPDATE restaurants SET id = :id, name = :name, description = :description, cuisine_id = :cuisine_id WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("id", id)
+      .addParameter("name", name)
+      .addParameter("description", description)
+      .addParameter("cuisine_id", cuisine_id)
+      .executeUpdate();
       }
   }
 
-  //DELETE
-  public void delete() {
+  // public static void deleteRestaurant(int id) {
+  //   String sql = "DELETE FROM restaurants WHERE id=:id";
+  //   try(Connection con = DB.sql2o.open()) {
+  //     con.createQuery(sql)
+  //     .addParameter("id", id)
+  //     .executeUpdate();
+  //   }
+
+  public static Restaurant find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      /******************************************************
-        Students: TODO: Display all restaurants on main page
-      *******************************************************/
+      String sql = "SELECT * FROM restaurants where id=:id";
+      Restaurant restaurant = con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetchFirst(Restaurant.class);
+      return restaurant;
     }
   }
+  //
 
-  /******************************************************
-    Students:
-    TODO: Create find method
-    TODO: Create method to get cuisine type
-  *******************************************************/
+  //   TODO: Create method to get cuisine type
+  // *******************************************************/
 
 }
