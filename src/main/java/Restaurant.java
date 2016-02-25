@@ -7,8 +7,8 @@ public class Restaurant {
   private String description;
   private int cuisine_id;
 
-  public Restaurant (int id, String name, String description, int cuisine_id) {
-    this.id = id;
+  public Restaurant (String name, String description, int cuisine_id) {
+    //this.id = id;
     this.name = name;
     this.description = description;
     this.cuisine_id = cuisine_id;
@@ -43,9 +43,9 @@ public class Restaurant {
 
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO restaurants(id, name, description, cuisine_id) VALUES (:id, :name, :description, :cuisine_id)";
+      String sql = "INSERT INTO restaurants(name, description, cuisine_id) VALUES (:name, :description, :cuisine_id)";
       this.id = (int) con.createQuery(sql, true)
-        .addParameter("id", id)
+        // .addParameter("id", id)
         .addParameter("name", name)
         .addParameter("description", description)
         .addParameter("cuisine_id", cuisine_id)
@@ -62,7 +62,7 @@ public class Restaurant {
     }
   }
 
-  public void update(int id, String name, String description, int cuisine_id) {
+  public void update(String name, String description, int cuisine_id) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "UPDATE restaurants SET id = :id, name = :name, description = :description, cuisine_id = :cuisine_id WHERE id = :id";
       con.createQuery(sql)
@@ -92,9 +92,13 @@ public class Restaurant {
       return restaurant;
     }
   }
-  //
 
-  //   TODO: Create method to get cuisine type
-  // *******************************************************/
-
+  public List<Cuisine> getCuisines() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM cuisine where cuisine_id=:cuisine_id";
+      return con.createQuery(sql)
+        .addParameter("cuisine_id", cuisine_id)
+        .executeAndFetch(Cuisine.class);
+      }
+    }
 }

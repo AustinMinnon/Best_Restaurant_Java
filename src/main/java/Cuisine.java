@@ -5,9 +5,9 @@ public class Cuisine {
   private int cuisine_id;
   private String type;
 
-  public Cuisine (int cuisine_id, String type) {
+  public Cuisine (String type) {
     this.type = type;
-    this.cuisine_id = cuisine_id;
+    //this.cuisine_id = cuisine_id;
   }
 
   public int getId() {
@@ -33,8 +33,7 @@ public class Cuisine {
     try (Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO cuisine(type) VALUES (:type)";
       this.cuisine_id = (int) con.createQuery(sql, true)
-
-         .addParameter("type", type)
+         .addParameter("type", this.type)
          .executeUpdate()
          .getKey();
      }
@@ -79,19 +78,13 @@ public class Cuisine {
         return Cuisine;
       }
     }
-//
-//   public void delete() {
-//     try(Connection con = DB.sql2o.open()) {
-//       /******************************************************
-//         Students: TODO: Create sql query and execute update
-//       *******************************************************/
-//     }
-//   }
-//
-//   /******************************************************
-//     Students:
-//     TODO: Create find method
-//     TODO: Create method to get Cuisines
-//   *******************************************************/
-//
+
+    public List<Restaurant> getRestaurants() {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "SELECT * FROM restaurants where cuisine_id=:cuisine_id";
+        return con.createQuery(sql)
+          .addParameter("cuisine_id", this.cuisine_id)
+          .executeAndFetch(Restaurant.class);
+        }
+      }
 }

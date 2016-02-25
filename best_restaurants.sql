@@ -68,7 +68,8 @@ ALTER SEQUENCE cuisine_id_seq OWNED BY cuisine.cuisine_id;
 
 CREATE TABLE restaurants (
     id integer NOT NULL,
-    name character varying
+    name character varying,
+    description character varying
 );
 
 
@@ -116,6 +117,26 @@ ALTER TABLE ONLY restaurants ALTER COLUMN id SET DEFAULT nextval('restaurants_id
 COPY cuisine (cuisine_id, type) FROM stdin;
 1	American
 2	Southern
+3	mexican
+4	mexican
+5	
+6	mexican
+7	oodff
+8	
+9	mexican
+10	chinese
+11	chinese
+12	dfdga
+13	dog
+14	cat
+15	asdf
+16	asdr
+17	asdr
+18	asdffff
+19	asdffff
+20	thai
+21	japanese
+22	wtf
 \.
 
 
@@ -123,16 +144,16 @@ COPY cuisine (cuisine_id, type) FROM stdin;
 -- Name: cuisine_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('cuisine_id_seq', 2, true);
+SELECT pg_catalog.setval('cuisine_id_seq', 22, true);
 
 
 --
 -- Data for Name: restaurants; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY restaurants (id, name) FROM stdin;
-1	Screen Door
-2	Lardo
+COPY restaurants (id, name, description) FROM stdin;
+1	Screen Door	\N
+2	Lardo	\N
 \.
 
 

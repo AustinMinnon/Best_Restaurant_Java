@@ -1,0 +1,11 @@
+<h2> $cuisine.getType() </h2>
+
+<ul>
+#foreach ($restaurant in $cuisine.getRestaurants())
+<li>$restaurant.getName()</li>
+#end
+</ul>
+
+<a href="/categories">Return to category list</a>
+</br>
+<a href="/categories/$category.getId()/tasks/new">Add New Task</a>

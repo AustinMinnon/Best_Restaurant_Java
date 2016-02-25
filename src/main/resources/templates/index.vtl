@@ -1,1 +1,8 @@
+<ul>
+#foreach ($cuisine in $cuisines)
+<li><a href="/cuisine/$cuisine.getId()">$cuisine.getType()</li>
+#end
+</ul>
 
+<a href="/cuisine-form">Add a cuisine</a>
+</br>
